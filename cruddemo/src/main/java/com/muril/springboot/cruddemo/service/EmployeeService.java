@@ -1,15 +1,11 @@
-package com.muril.springboot.cruddemo.dao;
+package com.muril.springboot.cruddemo.service;
 
 import com.muril.springboot.cruddemo.entity.Employee;
 import java.util.List;
 
-// DAO que vai conter os métodos CRUD do employee
-
-public interface EmployeeDAO {
-
+public interface EmployeeService {
     List<Employee> findAll();
     Employee findById(Integer employeeId);
     Employee save(Employee theEmployee);
     void deleteById(Integer employeeId);
-
 }
