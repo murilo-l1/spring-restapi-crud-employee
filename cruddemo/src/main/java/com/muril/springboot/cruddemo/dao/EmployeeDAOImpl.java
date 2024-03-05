@@ -33,7 +33,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public Employee save(Employee theEmployee) {
-        Employee dbEmployee = entityManager.merge(theEmployee); // se id == 0, ele cria um novo employee no banco, se não ele vai atualizar o com a Id passada
+        Employee dbEmployee = entityManager.merge(theEmployee); // se id == 0, ele cria um novo employee no banco, se não ele vai atualizar o objeto da id passada
         return dbEmployee; // retorna o novo employee ou o employee atualizado
     }
 

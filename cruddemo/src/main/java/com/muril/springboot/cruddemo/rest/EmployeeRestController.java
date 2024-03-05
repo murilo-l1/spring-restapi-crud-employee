@@ -1,6 +1,7 @@
 package com.muril.springboot.cruddemo.rest;
 
 import com.muril.springboot.cruddemo.entity.Employee;
+import com.muril.springboot.cruddemo.exception.EmployeeNotFoundException;
 import com.muril.springboot.cruddemo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class EmployeeRestController {
     public Employee getEmployee(@PathVariable Integer employeeId){
         Employee retrievedEmployee = employeeService.findById(employeeId);
         if(retrievedEmployee == null){
-            throw new RuntimeException();
+            throw new EmployeeNotFoundException("Employee with " + employeeId + " id not found.");
         }
         return retrievedEmployee;
     }
@@ -44,16 +45,24 @@ public class EmployeeRestController {
         return dbEmployee;
     }
 
-    /*@PutMapping("/employees/{employeeId}")
-    public Employee updateEmployee(@PathVariable Integer employeeId){
-        Employee updateEmployee = employeeService.findById(employeeId);
-
-
-    }*/
+    @PutMapping("/employees")
+    public Employee updateEmployee(@RequestBody Employee theEmployee){
+        List<Employee> employees = employeeService.findAll();
+        if(theEmployee.getId() >= employees.size()){
+            throw new EmployeeNotFoundException("Can't udpate employee with id " + theEmployee.getId());
+        }
+        Employee updatedEmployee = employeeService.save(theEmployee);
+        return updatedEmployee;
+    }
 
     @DeleteMapping("/employees/{employeeId}")
-    public void deleteById(@PathVariable Integer employeeId){
+    public String deleteById(@PathVariable Integer employeeId){
+        Employee tempEmployee = employeeService.findById(employeeId);
+        if(tempEmployee == null){
+            throw new EmployeeNotFoundException("Employee with id " + employeeId + " can't be deleted");
+        }
         employeeService.deleteById(employeeId);
+        return "Deleted employee with id " + employeeId;
     }
 
 }

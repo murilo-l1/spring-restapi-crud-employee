@@ -5,8 +5,9 @@ import com.muril.springboot.cruddemo.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
+
+// A cmada de serviços é necessária para lidar com as transações do banco que foram requisitadas pelo controlador
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
